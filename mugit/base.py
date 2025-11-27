@@ -112,7 +112,21 @@ def get_commit(oid):
             assert False, f'Unknown field {key}'
             
     message = '\n'.join(lines)
-    return Commit(tree=tree,parent=parent,message=message)
+    return Commit(tree=tree, parent=parent, message=message)
+
+def iter_commits_and_parents(oids):
+    oids = set(oids)
+    visited = set()
+    
+    while oids:
+        oid = oids.pop()
+        if not oid or oid in visited:
+            continue
+        visited.add(oid)
+        yield oid
+        
+        commit = get_commit(oid)
+        oids.add(commit.parent)
 
 def get_oid(name):
     if name == '@': name = 'HEAD'
@@ -123,7 +137,7 @@ def get_oid(name):
         f'refs/tags/{name}',
         f'refs/heads/{name}',
     ]
-    for refs in refs_to_try:
+    for ref in refs_to_try:
         if data.get_ref(ref):
             return data.get_ref(ref)
     # Name is SHA1

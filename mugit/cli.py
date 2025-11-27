@@ -42,7 +42,7 @@ def parse_args():
     
     log_parser = commands.add_parser('log')
     log_parser.set_defaults(func=log)
-    log_parser.add_arguement('oid', default='@', type=oid, nargs='?')
+    log_parser.add_argument('oid', default='@', type=oid, nargs='?')
     
     checkout_parser = commands.add_parser('checkout')
     checkout_parser.set_defaults(func=checkout)
@@ -86,7 +86,7 @@ def log(args):
         commit = base.get_commit(oid)
         
         print(f'commit {oid}\n')
-        print(textwrap.ident(commit.message, '    '))
+        print(textwrap.indent(commit.message, '    '))
         print('')
         
         oid = commit.parent
@@ -102,7 +102,7 @@ def k(args):
     for refname, ref in data.iter_refs():
         print(refname, ref)
         oids.add(ref)
-    fir iud ub base.iter_commits_and_parents(oids):
+    for oid in base.iter_commits_and_parents(oids):
         commit = base.get_commit(oid)
         print(oid)
         if commit.parent:
