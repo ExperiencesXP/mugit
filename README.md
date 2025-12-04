@@ -16,3 +16,8 @@ pip install -e .
 ```powershell
 pip uninstall mugit
 ```
+
+# Usage
+```powershell
+mugit init
+```
